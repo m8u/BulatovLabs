@@ -5,12 +5,13 @@ using namespace std;
 
 
 int main() {
+    BitString bitString1 = BitString("13243546576879AB");
+    BitString bitString2 = BitString("31425364758697EF");
 
-    BitString bitString = BitString("-7FFFFFFFFFFFFFFF");
-
-    char* a = bitString.toString();
-
-    cout << a << '\n';
+    cout << (bitString1 | bitString2).toString() << '\n';
+    cout << (bitString1 & bitString2).toString() << '\n';
+    cout << (bitString1 ^ bitString2).toString() << '\n';
+    cout << (~bitString1).toString() << '\n';
 
     return 0;
 }

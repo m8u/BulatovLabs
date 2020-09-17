@@ -11,7 +11,7 @@ BitString::BitString(char* hexCharseq) {
     int i = len - 1;
     long int powerOfSixteen = 1;
     int sign = hexCharseq[0] == '-'? -1 : 1; 
-    for (i; i >= 0 && powerOfSixteen != 4294967296; i--) {
+    for (i; i >= 0 && powerOfSixteen != 4294967296 && powerOfSixteen != 0; i--) {
         if (hexCharseq[i] <= 57) {
             tail += (hexCharseq[i] - 48) * powerOfSixteen; // 0-9
         } else {
@@ -32,19 +32,54 @@ BitString::BitString(char* hexCharseq) {
     }
 }
 
+BitString::BitString(long int _head, unsigned long int _tail) {
+    head = _head;
+    tail = _tail;
+}
+
+
 char* BitString::toString() {
     long int _head = head;
     unsigned long int _tail = tail;
-    char printable[18] = "00000000000000000";
+    char* printable = new char[17]; strcpy(printable, "00000000000000000");
 
     int i = head > 0? 15 : 16;
-    for (i; _tail > 0; i--) {
+    for (i; _tail != 0; i--) {
         if (_tail % 16 <= 9)
             printable[i] = (_tail % 16) + 48;
         else
             printable[i] = (_tail % 16) + 55;
         _tail /= 16;
     }
+    for (i; _head != 0; i--) {
+        if (abs(_head) % 16 <= 9) {
+            printable[i] = (abs(_head) % 16) + 48;
+        }
+        else {
+            printable[i] = (abs(_head) % 16) + 55;
+        }
+        _head /= 16;
+    }
+    if (head < 0)
+        printable[0] = '-';
+    else
+        printable[16] = '\0';
 
-    return (char*)printable;
+    return printable;
+}
+
+BitString BitString::operator | (BitString other) {
+    return BitString(head | other.head, tail | other.tail);
+}
+
+BitString BitString::operator & (BitString other) {
+    return BitString(head & other.head, tail & other.tail);
+}
+
+BitString BitString::operator ^ (BitString other) {
+    return BitString(head ^ other.head, tail ^ other.tail);
+}
+
+BitString BitString::operator ~ () {
+    return BitString(~head, ~tail); // not sure about this
 }
