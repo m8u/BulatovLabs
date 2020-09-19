@@ -23,20 +23,30 @@ BitString::BitString(char* hexCharseq) {
     for (i; i >= 0; i--) {
         if (hexCharseq[i] == '-') break;
 
-        if (hexCharseq[i] <= 57) {
-            head += (hexCharseq[i] - 48) * powerOfSixteen * sign;
-        } else {
-            head += (hexCharseq[i] - 55) * powerOfSixteen * sign;
+        try {
+            if (hexCharseq[i] <= 57) {
+                head += (hexCharseq[i] - 48) * powerOfSixteen * sign;
+            } else {
+                head += (hexCharseq[i] - 55) * powerOfSixteen * sign;
+            }
+        } catch (std::exception& e) {
+            head = NULL;
+            tail = NULL;
+            break;
         }
         powerOfSixteen *= 16;
     }
 }
 
 BitString::BitString(long int _head, unsigned long int _tail) {
-    head = _head;
-    tail = _tail;
+    try {
+        head = _head;
+        tail = _tail;
+    } catch (std::exception& e) {
+        head = NULL;
+        tail = NULL;
+    }
 }
-
 
 char* BitString::toString() {
     long int _head = head;
@@ -68,18 +78,18 @@ char* BitString::toString() {
     return printable;
 }
 
-BitString BitString::operator | (BitString other) {
+BitString BitString::or(BitString other) {
     return BitString(head | other.head, tail | other.tail);
 }
 
-BitString BitString::operator & (BitString other) {
+BitString BitString::and(BitString other) {
     return BitString(head & other.head, tail & other.tail);
 }
 
-BitString BitString::operator ^ (BitString other) {
+BitString BitString::xor(BitString other) {
     return BitString(head ^ other.head, tail ^ other.tail);
 }
 
-BitString BitString::operator ~ () {
-    return BitString(~head, ~tail); // not sure about this
+BitString BitString::not() {
+    return BitString(~head, ~tail);
 }

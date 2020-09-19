@@ -10,8 +10,8 @@ class BitString {
 
         char* toString();
 
-        BitString BitString::operator | (BitString other);
-        BitString BitString::operator & (BitString other);
-        BitString BitString::operator ^ (BitString other);
-        BitString BitString::operator ~ ();
+        BitString BitString::or(BitString other);
+        BitString BitString::and(BitString other);
+        BitString BitString::xor(BitString other);
+        BitString BitString::not();
 };
