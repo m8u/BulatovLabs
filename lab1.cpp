@@ -19,21 +19,21 @@ int main() {
     // Побитовые операции на корректном инпуте
     BitString bitString1 = BitString("1234567890ABCDEF");
     BitString bitString2 = BitString("12F4A9969BAB7C0A");
-    cout << "1:  " << testMsg(bitString1.or(bitString2).toString(),
+    cout << "1:  " << testMsg(BitString::or(bitString1, bitString2).toString(),
                                 "12F4FFFE9BABFDEF") << '\n';
-    cout << "2:  " << testMsg(bitString1.and(bitString2).toString(),
+    cout << "2:  " << testMsg(BitString::and(bitString1, bitString2).toString(),
                                 "1234001090AB4C0A") << '\n';
-    cout << "3:  " << testMsg(bitString1.xor(bitString2).toString(),
+    cout << "3:  " << testMsg(BitString::xor(bitString1, bitString2).toString(),
                                 "000C0FFEEB00B1E5") << '\n';
-    cout << "4:  " << testMsg(bitString1.not().toString(),
+    cout << "4:  " << testMsg(BitString::not(bitString1).toString(),
                                 "-123456796F543210") << '\n' << '\n';
 
     // Тоже корректный инпут, но в результате - оверфлоу                            
     bitString1 = BitString("0000000000000000");
-    cout << "5:  " << testMsg(bitString1.not().toString(),
+    cout << "5:  " << testMsg(BitString::not(bitString1).toString(),
                                 "FFFFFFFFFFFFFFFF") << '\n';
     bitString1 = BitString("7777777777777777");
-    cout << "6:  " << testMsg(bitString1.not().toString(),
+    cout << "6:  " << testMsg(BitString::not(bitString1).toString(),
                                 "8888888888888888") << '\n' << '\n';
 
     // Некорректный инпут

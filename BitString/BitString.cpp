@@ -78,18 +78,18 @@ char* BitString::toString() {
     return printable;
 }
 
-BitString BitString::or(BitString other) {
-    return BitString(head | other.head, tail | other.tail);
+BitString BitString::or(BitString bitString1, BitString bitString2) {
+    return BitString(bitString1.head | bitString2.head, bitString1.tail | bitString2.tail);
 }
 
-BitString BitString::and(BitString other) {
-    return BitString(head & other.head, tail & other.tail);
+BitString BitString::and(BitString bitString1, BitString bitString2) {
+    return BitString(bitString1.head & bitString2.head, bitString1.tail & bitString2.tail);
 }
 
-BitString BitString::xor(BitString other) {
-    return BitString(head ^ other.head, tail ^ other.tail);
+BitString BitString::xor(BitString bitString1, BitString bitString2) {
+    return BitString(bitString1.head ^ bitString2.head, bitString1.tail ^ bitString2.tail);
 }
 
-BitString BitString::not() {
-    return BitString(~head, ~tail);
+BitString BitString::not(BitString bitString) {
+    return BitString(~bitString.head, ~bitString.tail);
 }
