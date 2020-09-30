@@ -1,4 +1,6 @@
 *.o
+lab*
+!lab*.cpp
 
 *.exe
 *.ilk
