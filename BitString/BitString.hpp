@@ -10,8 +10,8 @@ class BitString {
 
         char* toString();
 
-        static BitString BitString::or(BitString bitString1, BitString bitString2);
-        static BitString BitString::and(BitString bitString1, BitString bitString2);
-        static BitString BitString::xor(BitString bitString1, BitString bitString2);
-        static BitString BitString::not(BitString bitString);
+        static BitString _or(BitString bitString1, BitString bitString2);
+        static BitString _and(BitString bitString1, BitString bitString2);
+        static BitString _xor(BitString bitString1, BitString bitString2);
+        static BitString _not(BitString bitString);
 };

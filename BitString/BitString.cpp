@@ -1,5 +1,6 @@
 #include "BitString.hpp"
 #include <iostream>
+#include "string.h"
 
 BitString::BitString(char* hexCharseq) {
     head = 0;
@@ -78,18 +79,18 @@ char* BitString::toString() {
     return printable;
 }
 
-BitString BitString::or(BitString bitString1, BitString bitString2) {
+BitString BitString::_or(BitString bitString1, BitString bitString2) {
     return BitString(bitString1.head | bitString2.head, bitString1.tail | bitString2.tail);
 }
 
-BitString BitString::and(BitString bitString1, BitString bitString2) {
+BitString BitString::_and(BitString bitString1, BitString bitString2) {
     return BitString(bitString1.head & bitString2.head, bitString1.tail & bitString2.tail);
 }
 
-BitString BitString::xor(BitString bitString1, BitString bitString2) {
+BitString BitString::_xor(BitString bitString1, BitString bitString2) {
     return BitString(bitString1.head ^ bitString2.head, bitString1.tail ^ bitString2.tail);
 }
 
-BitString BitString::not(BitString bitString) {
+BitString BitString::_not(BitString bitString) {
     return BitString(~bitString.head, ~bitString.tail);
 }
