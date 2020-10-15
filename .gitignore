@@ -1,6 +1,5 @@
 *.o
-lab*
-!lab*.cpp
+main
 
 *.exe
 *.ilk

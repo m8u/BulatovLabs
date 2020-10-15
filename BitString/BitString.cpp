@@ -49,7 +49,7 @@ BitString::BitString(long int _head, unsigned long int _tail) {
     }
 }
 
-char* BitString::toString() {
+BitString::operator char*(){
     long int _head = head;
     unsigned long int _tail = tail;
     char* printable = new char[17]; strcpy(printable, "00000000000000000");
@@ -61,6 +61,11 @@ char* BitString::toString() {
         else
             printable[i] = (_tail % 16) + 55;
         _tail /= 16;
+    }
+    if (printable[8] == '0') {
+        int j = head > 0? 8 : 9;
+        i = head > 0? 8 : 9;
+        for (i, j; printable[j] == '0'; i--, j++);
     }
     for (i; _head != 0; i--) {
         if (abs(_head) % 16 <= 9) {
@@ -79,18 +84,36 @@ char* BitString::toString() {
     return printable;
 }
 
-BitString BitString::_or(BitString bitString1, BitString bitString2) {
-    return BitString(bitString1.head | bitString2.head, bitString1.tail | bitString2.tail);
+BitString BitString::operator = (BitString other) {
+    head = other.head;
+    tail = other.tail;
+    return *this;
 }
 
-BitString BitString::_and(BitString bitString1, BitString bitString2) {
-    return BitString(bitString1.head & bitString2.head, bitString1.tail & bitString2.tail);
+BitString BitString::operator + (BitString other) {
+    if (tail + other.tail > 0xFFFFFFFF)
+        return BitString(head + other.head + (tail + other.tail) / 0x100000000, 
+                            (tail + other.tail) % 0x100000000);
+    else
+        return BitString(head + other.head, tail + other.tail);
 }
 
-BitString BitString::_xor(BitString bitString1, BitString bitString2) {
-    return BitString(bitString1.head ^ bitString2.head, bitString1.tail ^ bitString2.tail);
+BitString BitString::operator - (BitString other) {
+    return BitString(head - other.head, abs(tail - other.tail));
 }
 
-BitString BitString::_not(BitString bitString) {
-    return BitString(~bitString.head, ~bitString.tail);
+BitString BitString::operator | (BitString other) {
+    return BitString(head | other.head, tail | other.tail);
+}
+
+BitString BitString::operator & (BitString other) {
+    return BitString(head & other.head, tail & other.tail);
+}
+
+BitString BitString::operator ^ (BitString other) {
+    return BitString(head ^ other.head, tail ^ other.tail);
+}
+
+BitString BitString::operator ~ () {
+    return BitString(~head, ~tail);
 }
