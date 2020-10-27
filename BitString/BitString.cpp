@@ -49,6 +49,11 @@ BitString::BitString(long int _head, unsigned long int _tail) {
     }
 }
 
+long int BitString::getHead() { return this->head; }
+
+unsigned long int BitString::getTail() { return this->tail; }
+
+
 BitString::operator char*(){
     long int _head = head;
     unsigned long int _tail = tail;
@@ -90,12 +95,12 @@ BitString BitString::operator = (BitString other) {
     return *this;
 }
 
-BitString BitString::operator + (BitString other) {
-    if (tail + other.tail > 0xFFFFFFFF)
-        return BitString(head + other.head + (tail + other.tail) / 0x100000000, 
-                            (tail + other.tail) % 0x100000000);
+BitString operator + (BitString _this, BitString other) {
+    if (_this.tail + other.tail > 0xFFFFFFFF)
+        return BitString(_this.head + other.head + (_this.tail + other.tail) / 0x100000000, 
+                            (_this.tail + other.tail) % 0x100000000);
     else
-        return BitString(head + other.head, tail + other.tail);
+        return BitString(_this.head + other.head, _this.tail + other.tail);
 }
 
 BitString BitString::operator - (BitString other) {
