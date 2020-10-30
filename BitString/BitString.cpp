@@ -1,6 +1,6 @@
 #include "BitString.hpp"
 #include <iostream>
-#include "string.h"
+#include <cstring>
 
 BitString::BitString(char* hexCharseq) {
     head = 0;
