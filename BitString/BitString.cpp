@@ -31,6 +31,7 @@ BitString::BitString(char* hexCharseq) {
                 head += (hexCharseq[i] - 55) * powerOfSixteen * sign;
             }
         } catch (std::exception& e) {
+            std::cerr << "WARNING: There's some overflow happening" << '\n';
             head = NULL;
             tail = NULL;
             break;
