@@ -8,10 +8,16 @@ class BitString {
         BitString(char* hexCharseq);
         BitString(long int _head, unsigned long int _tail);
 
-        char* toString();
+        long int getHead();
+        unsigned long int getTail();
 
-        static BitString _or(BitString bitString1, BitString bitString2);
-        static BitString _and(BitString bitString1, BitString bitString2);
-        static BitString _xor(BitString bitString1, BitString bitString2);
-        static BitString _not(BitString bitString);
+        operator char*();
+
+        BitString operator = (BitString other); 
+        friend BitString operator + (BitString _this, BitString other);
+        BitString operator - (BitString other);
+        BitString operator | (BitString other);
+        BitString operator & (BitString other);
+        BitString operator ^ (BitString other);
+        BitString operator ~ ();
 };

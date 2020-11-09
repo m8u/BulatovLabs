@@ -1,6 +1,5 @@
 *.o
-lab*
-!lab*.cpp
+main
 
 *.exe
 *.ilk
@@ -8,3 +7,5 @@ lab*
 *.pdb
 
 .vscode
+
+.theia
