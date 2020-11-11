@@ -1,6 +1,11 @@
 #include "BitString.hpp"
 #include <iostream>
+#include <fstream>
 #include <cstring>
+
+using namespace std;
+
+BitString::BitString() {}
 
 BitString::BitString(char* hexCharseq) {
     head = 0;
@@ -30,8 +35,9 @@ BitString::BitString(char* hexCharseq) {
             } else {
                 head += (hexCharseq[i] - 55) * powerOfSixteen * sign;
             }
-        } catch (std::exception& e) {
-            std::cerr << "WARNING: There's some overflow happening" << '\n';
+            if (head > 2147483647) throw overflow_error(""); // В какой-то момент оно просто перестало кидаться при перегрузе
+        } catch (exception& e) {
+            cerr << "\x1B[33mWARNING: There's some overflow happening\033[0m\t\t" << '\n';
             head = NULL;
             tail = NULL;
             break;
@@ -44,7 +50,7 @@ BitString::BitString(long int _head, unsigned long int _tail) {
     try {
         head = _head;
         tail = _tail;
-    } catch (std::exception& e) {
+    } catch (exception& e) {
         head = NULL;
         tail = NULL;
     }
@@ -90,6 +96,30 @@ BitString::operator char*(){
     return printable;
 }
 
+
+istream& operator >> (istream &in, BitString &p) {
+    char hexCharseq[17];
+    in >> hexCharseq;
+    p = BitString(hexCharseq);
+    return in;
+}
+
+ostream& operator << (ostream &out, BitString &p) {
+    out << (char*) p;
+    return out;
+}
+
+ifstream& operator >> (ifstream &in, BitString &p) {
+    in >> p.head >> p.tail;
+    return in;
+}
+
+ofstream& operator << (ofstream &out, BitString &p) {
+    out << p.head << " " << p.tail << '\n';
+    return out;
+}
+
+
 BitString BitString::operator = (BitString other) {
     head = other.head;
     tail = other.tail;
@@ -105,7 +135,7 @@ BitString operator + (BitString _this, BitString other) {
 }
 
 BitString BitString::operator - (BitString other) {
-    return BitString(head - other.head, abs(tail - other.tail));
+    return BitString(head - other.head, abs((long long int)tail - (long long int)other.tail));
 }
 
 BitString BitString::operator | (BitString other) {
