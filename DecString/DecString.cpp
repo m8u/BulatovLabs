@@ -87,7 +87,7 @@ void DecString::setDateCreated() {
 }
 
 istream& operator >> (istream &in, DecString &p) {
-    char decCharseq[17];
+    char decCharseq[21];
     in >> decCharseq;
     p = DecString(decCharseq);
     return in;
