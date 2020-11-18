@@ -1,4 +1,4 @@
-#include "BitString.hpp"
+#include <BitString/BitString.hpp>
 #include <iostream>
 #include <fstream>
 #include <cstring>
