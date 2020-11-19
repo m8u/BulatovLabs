@@ -35,9 +35,9 @@ BitString::BitString(char* hexCharseq) {
             } else {
                 head += (hexCharseq[i] - 55) * powerOfSixteen * sign;
             }
-            if (head > 2147483647) throw overflow_error(""); // В какой-то момент оно просто перестало кидаться при перегрузе
+            if (abs(head) > 2147483647) throw overflow_error("");
         } catch (exception& e) {
-            cerr << "\x1B[33mWARNING: There's some overflow happening\033[0m\t\t" << '\n';
+            cerr << "\x1B[33mWARNING: Caught an overflow_error\033[0m " << '\n';
             head = NULL;
             tail = NULL;
             break;
@@ -50,7 +50,9 @@ BitString::BitString(long int _head, unsigned long int _tail) {
     try {
         head = _head;
         tail = _tail;
+        if (abs(head) > 2147483647 || tail > 4294967295) throw overflow_error("");
     } catch (exception& e) {
+        cerr << "\x1B[33mWARNING: Caught an overflow_error\033[0m ";// << '\n';
         head = NULL;
         tail = NULL;
     }
