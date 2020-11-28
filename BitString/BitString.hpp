@@ -3,7 +3,7 @@
 using namespace std;
 
 class BitString {
-    private:
+    protected:
         long int head;
         unsigned long int tail;
         // -7FFFFFFFFFFFFFFF to 7FFFFFFFFFFFFFFF
@@ -31,3 +31,5 @@ class BitString {
         BitString operator ^ (BitString other);
         BitString operator ~ ();
 };
+
+#pragma once
