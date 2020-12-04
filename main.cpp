@@ -1,5 +1,6 @@
 #include <BitString/BitString.hpp>
 #include <DecString/DecString.hpp>
+#include <List/List.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,7 +10,7 @@ using namespace std;
 
 char* testMsg(char* returned, char* expected) {
     char* what = new char[0]; // без этой штуки message почему-то создается с адресом returned
-    char* message = new char [64];
+    char* message = new char [128];
     if (strcmp(returned, expected) == 0) {
         strcpy(message, strcat(returned, " - OK"));
     } else {
@@ -20,7 +21,8 @@ char* testMsg(char* returned, char* expected) {
 
 
 int main() {
-    int testNumber = 1;
+    int testNumber = 0;
+    testNumber++;
 
     // Операторы ввода-вывода для stdin/stdout и текстовых файловых потоков
     BitString bitString1, bitString2;
@@ -149,6 +151,60 @@ int main() {
                                 decString1.dateCreated.tm_mday,
                                 decString1.dateCreated.tm_hour,
                                 decString1.dateCreated.tm_min);
+
+
+    cout << "\n\n";
+
+
+    // Двусвязный список с указателями на экземпляры BitString
+    List list;
+
+    // Добавление в конец списка и вывод в стандартный поток
+    list.append(new BitString("00DEC0DEFA11ED00"));
+    list.append(new BitString("00ACCE55DE91ED00"));
+    list.append(new BitString("0063111EDBEEF000"));
+    oss << list;
+    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
+        "[00DEC0DEFA11ED00, 00ACCE55DE91ED00, 0063111EDBEEF000]") << '\n';
+    oss.str("");
+    oss.clear();
+    testNumber++;
+
+    // Вставка по индексу и полиморфизм
+    list.insert(new DecString("AAAAAA"), 1);
+    oss << list;
+    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
+        "[00DEC0DEFA11ED00, 00000000000011184810, 00ACCE55DE91ED00, 0063111EDBEEF000]") << '\n';
+    oss.str("");
+    oss.clear();
+    testNumber++;
+
+    // Удаление с конца
+    oss << *(list.pop());
+    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
+        "0063111EDBEEF000") << '\n';
+    oss.str("");
+    oss.clear();
+    testNumber++;
+
+    // Удаление по индексу
+    oss << *(list.pop(0));
+    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
+        "00DEC0DEFA11ED00") << '\n';
+    oss.str("");
+    oss.clear();
+    testNumber++;
+
+    oss << list;
+    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
+        "[00000000000011184810, 00ACCE55DE91ED00]") << '\n';
+    oss.str("");
+    oss.clear();
+    testNumber++;
+
+    cout << testNumber << ": " << testMsg(((DecString*)list.find("00000000000011184810"))->toOct(), 
+        "0000000000000052525252") << '\n';
+    testNumber++;
 
     return 0;
 }
