@@ -82,6 +82,7 @@ BitString* List::find(char* hexCharseq) {
     while (node != NULL) {
         if (strcmp((char*)*(node->__ptr), hexCharseq) == 0) {
             toReturn = node->__ptr;
+            break;
         }
         node = node->__next;
     }
