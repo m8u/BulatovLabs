@@ -68,7 +68,7 @@ BitString::operator char*(){
     unsigned long int _tail = tail;
     char* printable = new char[17]; strcpy(printable, "00000000000000000");
 
-    int i = head > 0? 15 : 16;
+    int i = head >= 0? 15 : 16;
     for (i; _tail != 0; i--) {
         if (_tail % 16 <= 9)
             printable[i] = (_tail % 16) + 48;
@@ -76,11 +76,7 @@ BitString::operator char*(){
             printable[i] = (_tail % 16) + 55;
         _tail /= 16;
     }
-    if (printable[8] == '0') {
-        int j = head > 0? 8 : 9;
-        i = head > 0? 8 : 9;
-        for (i, j; printable[j] == '0'; i--, j++);
-    }
+    i = head > 0? 7 : 8;
     for (i; _head != 0; i--) {
         if (abs(_head) % 16 <= 9) {
             printable[i] = (abs(_head) % 16) + 48;

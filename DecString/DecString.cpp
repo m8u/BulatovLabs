@@ -24,7 +24,7 @@ DecString::operator char*(){
     long long int number = getNumber();
     char* printable = new char[21]; strcpy(printable, "000000000000000000000");
 
-    int i = number > 0? 19 : 20;
+    int i = number >= 0? 19 : 20;
     for (i; number != 0; i--) {
         printable[i] = (number % 10) + 48;
         number /= 10;

@@ -16,7 +16,7 @@ class BitString {
         long int getHead();
         unsigned long int getTail();
 
-        operator char*();
+        virtual operator char*();
 
         friend istream& operator >> (istream& in, BitString &p);
         friend ostream& operator << (ostream& out, BitString &p);
