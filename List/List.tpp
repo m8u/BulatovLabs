@@ -1,20 +1,21 @@
 #include <List/List.hpp>
-#include <BitString/BitString.hpp>
 #include <iostream>
 #include <cstring>
 
 using namespace std;
 
-List::List() {
+template <class T>
+List<T>::List() {
     __ptr = NULL;
     __prev = NULL;
     __next = NULL;
 }
 
-void List::append(BitString *bitString) {
+template <class T>
+void List<T>::append(T *t) {
     List *head = this;
     if (head->__ptr == NULL) {
-        head->__ptr = bitString;
+        head->__ptr = t;
         return;
     }
 
@@ -28,18 +29,19 @@ void List::append(BitString *bitString) {
         }
         node = node->__next;
     }
-    node->__ptr = bitString;
+    node->__ptr = t;
 }
 
-void List::insert(BitString *bitString, int index) {
+template <class T>
+void List<T>::insert(T *t, int index) {
     List *head = this;
     List *node = head;
     for (int i = 0; i < index; i++)
         node = node->__next;
     
-    BitString *temp1 = node->__ptr;
-    node->__ptr = bitString;
-    BitString *temp2;
+    T *temp1 = node->__ptr;
+    node->__ptr = t;
+    T *temp2;
     while (node->__next->__ptr != NULL) {
         temp2 = node->__next->__ptr;
         node->__next->__ptr = temp1;
@@ -53,8 +55,9 @@ void List::insert(BitString *bitString, int index) {
     node->__next->__ptr = temp1;
 }
 
-BitString* List::pop(int index) {
-    BitString *toReturn;
+template <class T>
+T* List<T>::pop(int index) {
+    T *toReturn;
     List *head = this;
     List *node = head;
     if (index == -1) {
@@ -75,8 +78,9 @@ BitString* List::pop(int index) {
     return toReturn;
 }
 
-BitString* List::find(char* hexCharseq) {
-    BitString *toReturn = NULL;
+template <class T>
+T* List<T>::find(char* hexCharseq) {
+    T *toReturn = NULL;
     List *head = this;
     List *node = head;
     while (node != NULL) {
@@ -89,12 +93,13 @@ BitString* List::find(char* hexCharseq) {
     if (toReturn != NULL)
         return toReturn;
     else
-        return new BitString("0");
+        return new T("0");
 }
 
 
-ostream& operator << (ostream &out, List &p) {
-    List *node = &p;
+template <class T>
+ostream& operator << (ostream &out, List<T> &p) {
+    List<T> *node = &p;
     out << '[';
     while (node != NULL) {
         out << *(node->__ptr);
@@ -106,3 +111,5 @@ ostream& operator << (ostream &out, List &p) {
 
     return out;
 }
+
+#pragma once;
