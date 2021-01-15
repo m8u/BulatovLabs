@@ -1,28 +1,14 @@
-#include <BitString/BitString.hpp>
-#include <DecString/DecString.hpp>
-#include <List/List.hpp>
+#include <Testing/Testing.hpp>
 #include <iostream>
-#include <fstream>
 #include <sstream>
-#include <cstring>
+#include <fstream>
+#include <BitString/BitString.hpp>
 
+using namespace Testing;
 using namespace std;
 
-char* testMsg(char* returned, char* expected) {
-    char* what = new char[0]; // без этой штуки message почему-то создается с адресом returned
-    char* message = new char [128];
-    if (strcmp(returned, expected) == 0) {
-        strcpy(message, strcat(returned, " - OK"));
-    } else {
-        strcpy(message, strcat(strcat(returned, " - WRONG, expected: "), expected));
-    }
-    return message;
-}
-
-
 int main() {
-    int testNumber = 0;
-    testNumber++;
+    int testNumber = 1;
 
     // Операторы ввода-вывода для stdin/stdout и текстовых файловых потоков
     BitString bitString1, bitString2;
@@ -122,88 +108,6 @@ int main() {
     testNumber++;
     bitString1 = BitString("BADA55D11D051337"); // заведомый оверфлоу (вне -7FFFFFFFFFFFFFFF до 7FFFFFFFFFFFFFFF)
     cout << testNumber << ":  " << testMsg((char*)bitString1, "BADA55D11D051337") << '\n';
-    testNumber++;
-
-    cout << "\n\n";
-
-    // Методы представления наследника DecString
-    DecString decString1 = DecString("FEE1BAD");
-    oss << decString1.getNumber();
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), "267262893") << '\n';
-    testNumber++;
-    oss.str("");
-    oss.clear();
-    oss << decString1;
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), "00000000000267262893") << '\n' << '\n';
-    testNumber++;
-    oss.str("");
-    oss.clear();
-
-    // Методы конвертации в 8-ю и 16-ю СС
-    cout << testNumber << ": " << testMsg(decString1.toOct(), "0000000000001773415655") << '\n';
-    testNumber++;
-    cout << testNumber << ": " << testMsg(decString1.toHex(), "000000000FEE1BAD") << '\n' << '\n';
-    testNumber++;
-     
-    // Дата создания экземпляра
-    printf("%d-%d-%d %d:%d - probably OK, please check manually\n", decString1.dateCreated.tm_year,
-                                decString1.dateCreated.tm_mon,
-                                decString1.dateCreated.tm_mday,
-                                decString1.dateCreated.tm_hour,
-                                decString1.dateCreated.tm_min);
-
-
-    cout << "\n\n";
-
-
-    // Двусвязный список с указателями на экземпляры BitString
-    List list;
-
-    // Добавление в конец списка и вывод в стандартный поток
-    list.append(new BitString("00DEC0DEFA11ED00"));
-    list.append(new BitString("00ACCE55DE91ED00"));
-    list.append(new BitString("0063111EDBEEF000"));
-    oss << list;
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
-        "[00DEC0DEFA11ED00, 00ACCE55DE91ED00, 0063111EDBEEF000]") << '\n';
-    oss.str("");
-    oss.clear();
-    testNumber++;
-
-    // Вставка по индексу и полиморфизм
-    list.insert(new DecString("AAAAAA"), 1);
-    oss << list;
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
-        "[00DEC0DEFA11ED00, 00000000000011184810, 00ACCE55DE91ED00, 0063111EDBEEF000]") << '\n';
-    oss.str("");
-    oss.clear();
-    testNumber++;
-
-    // Удаление с конца
-    oss << *(list.pop());
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
-        "0063111EDBEEF000") << '\n';
-    oss.str("");
-    oss.clear();
-    testNumber++;
-
-    // Удаление по индексу
-    oss << *(list.pop(0));
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
-        "00DEC0DEFA11ED00") << '\n';
-    oss.str("");
-    oss.clear();
-    testNumber++;
-
-    oss << list;
-    cout << testNumber << ": " << testMsg((char*)oss.str().c_str(), 
-        "[00000000000011184810, 00ACCE55DE91ED00]") << '\n';
-    oss.str("");
-    oss.clear();
-    testNumber++;
-
-    cout << testNumber << ": " << testMsg(((DecString*)list.find("00000000000011184810"))->toOct(), 
-        "0000000000000052525252") << '\n';
     testNumber++;
 
     return 0;
